@@ -1,0 +1,11 @@
+sudo: required
+
+services:
+ - docker
+
+jobs:
+ include:
+  - stage: build docker image
+    script:
+     - docker build -t ecanyon/hwproject-alpine --file ./Dockerfile-alpine.txt . 
+     - docker images ls
