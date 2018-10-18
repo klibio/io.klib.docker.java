@@ -10,7 +10,9 @@ jobs:
  include:
   - stage: build and push docker image
     script:
-     - docker build -t klibio/io.klib.docker.java:1.0.0 --file ./Dockerfile-alpine.txt . 
-     - docker images ls
+     - docker build -t klibio/io.klib.docker.java:$version --file ./Dockerfile-alpine.txt . 
+     - docker images ls -a
      - docker login -u $DCKUSR -p $DCKPW
-     - docker push klibio/io.klib.docker.java:1.0.0
+     - docker push klibio/io.klib.docker.java:$version
+     - docker tag klibio/io.klib.docker.java:$version klibio/io.klib.docker.java:latest
+     - docker push klibio/io.klib.docker.java:latest
