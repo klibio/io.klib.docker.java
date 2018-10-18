@@ -3,9 +3,18 @@ sudo: required
 services:
  - docker
 
+env:
+  - version=1.0.0
+
 jobs:
  include:
   - stage: build docker image
     script:
      - docker build -t klibio/io.klib.docker.java --file ./Dockerfile-alpine.txt . 
      - docker images ls
+  - stage: push docker image
+    script:
+      - docker login -u $DCKUSR -p $DCKPW
+      - docker tag klibio/io.klib.docker.java klibio/io.klib.docker.java:$version
+      - docker tag klibio/io.klib.docker.java$version klibio/io.klib.docker.java:latest
+      - docker push klibio/io.klib.docker.java
