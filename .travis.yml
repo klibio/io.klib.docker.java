@@ -14,7 +14,7 @@ jobs:
      - docker images ls
   - stage: push docker image
     script:
-      - docker login -u $DCKUSR -p $DCKPW
+      - $DCKPW | docker login -u $DCKUSR --password-stdin
       - docker tag klibio/io.klib.docker.java klibio/io.klib.docker.java:$version
       - docker tag klibio/io.klib.docker.java$version klibio/io.klib.docker.java:latest
       - docker push klibio/io.klib.docker.java
