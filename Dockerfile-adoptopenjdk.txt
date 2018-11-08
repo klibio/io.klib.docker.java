@@ -4,4 +4,5 @@ RUN mkdir /opt/app
 COPY Main.java /opt/app
 WORKDIR /opt/app
 RUN javac Main.java
-CMD ["java", "Main"]
+#"-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap" for adoptopenjdk docker
+CMD ["java -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap", "Main"]
