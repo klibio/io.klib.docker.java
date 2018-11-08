@@ -1,0 +1,7 @@
+FROM adoptopenjdk/openjdk8:latest
+
+RUN mkdir /opt/app
+COPY Main.java /opt/app
+WORKDIR /opt/app
+RUN javac Main.java
+CMD ["java", "Main"]
