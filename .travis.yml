@@ -21,10 +21,11 @@ jobs:
   - stage: build and push docker.java for develop
     if: branch = develop
     script:
-     - docker build -t klibio/io.klib.docker.java:$TRAVIS_BRANCH_alpine.$version -t klibio/io.klib.docker.java:$TRAVIS_BRANCH_alpine.latest --file ./Dockerfile-alpine.txt . 
+     - docker build -t klibio/io.klib.docker.java:$TRAVIS_BRANCH_alpine.$version --file ./Dockerfile-alpine.txt . 
      - docker images ls -a
      - docker login -u $DCKUSR -p $DCKPW
      - docker push klibio/io.klib.docker.java:$TRAVIS_BRANCH_alpine.$version
+     - docker tag klibio/io.klib.docker.java:$TRAVIS_BRANCH_alpine.$version klibio/io.klib.docker.java:$TRAVIS_BRANCH_alpine.latest
      - docker push klibio/io.klib.docker.java:$TRAVIS_BRANCH_alpine.latest
      - docker build -t klibio/io.klib.docker.java:$TRAVIS_BRANCH_adoptopenjdk.$version -t klibio/io.klib.docker.java:$TRAVIS_BRANCH_adoptopenjdk.latest --file ./Dockerfile-adoptopenjdk.txt . 
      - docker push klibio/io.klib.docker.java:$TRAVIS_BRANCH_adoptopenjdk.$version
