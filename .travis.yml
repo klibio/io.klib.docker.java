@@ -5,27 +5,28 @@ env:
   global:
     - version=0.1.0
     - export gitbranch=$TRAVIS_BRANCH
+    - date=$(date +%Y%m%d-%H%M%S) #This is needed, else the variable will change by a second and not be pushed
 jobs:
  include:
   - stage: build and push docker.java for master
     if: branch = master
     script:
-     - docker build -t klibio/io.klib.docker.java:alpine.$version -t klibio/io.klib.docker.java:alpine.latest --file ./Dockerfile-alpine.txt . 
+     - docker build -t klibio/io.klib.docker.java:alpine.$date.$TRAVIS_BUILD_ID -t klibio/io.klib.docker.java:alpine.latest --file ./Dockerfile-alpine.txt . 
      - docker images ls -a
      - docker login -u $DCKUSR -p $DCKPW
-     - docker push klibio/io.klib.docker.java:alpine.$version
+     - docker push klibio/io.klib.docker.java:alpine.$date.$TRAVIS_BUILD_ID
      - docker push klibio/io.klib.docker.java:alpine.latest
-     - docker build -t klibio/io.klib.docker.java:adoptopenjdk.$version -t klibio/io.klib.docker.java:adoptopenjdk.latest --file ./Dockerfile-adoptopenjdk.txt . 
-     - docker push klibio/io.klib.docker.java:adoptopenjdk.$version
+     - docker build -t klibio/io.klib.docker.java:adoptopenjdk.$date.$TRAVIS_BUILD_ID -t klibio/io.klib.docker.java:adoptopenjdk.latest --file ./Dockerfile-adoptopenjdk.txt . 
+     - docker push klibio/io.klib.docker.java:adoptopenjdk.$date.$TRAVIS_BUILD_ID
      - docker push klibio/io.klib.docker.java:adoptopenjdk.latest     
   - stage: build and push docker.java for develop
     if: branch = develop
     script:
-     - docker build -t klibio/io.klib.docker.java:$gitbranch.alpine.$(date +%Y%m%d-%H%M%S).$TRAVIS_BUILD_ID -t klibio/io.klib.docker.java:$gitbranch.alpine.latest --file ./Dockerfile-alpine.txt . 
+     - docker build -t klibio/io.klib.docker.java:$gitbranch.alpine.$date.$TRAVIS_BUILD_ID -t klibio/io.klib.docker.java:$gitbranch.alpine.latest --file ./Dockerfile-alpine.txt . 
      - docker images ls -a
      - docker login -u $DCKUSR -p $DCKPW
-     - docker push klibio/io.klib.docker.java:$gitbranch.alpine.$(date +%Y%m%d-%H%M%S).$TRAVIS_BUILD_ID
+     - docker push klibio/io.klib.docker.java:$gitbranch.alpine.$date.$TRAVIS_BUILD_ID
      - docker push klibio/io.klib.docker.java:$gitbranch.alpine.latest
-     - docker build -t klibio/io.klib.docker.java:$gitbranch.adoptopenjdk.$version -t klibio/io.klib.docker.java:$gitbranch.adoptopenjdk.latest --file ./Dockerfile-adoptopenjdk.txt . 
-     - docker push klibio/io.klib.docker.java:$gitbranch.adoptopenjdk.$version
+     - docker build -t klibio/io.klib.docker.java:$gitbranch.adoptopenjdk.$date.$TRAVIS_BUILD_ID -t klibio/io.klib.docker.java:$gitbranch.adoptopenjdk.latest --file ./Dockerfile-adoptopenjdk.txt . 
+     - docker push klibio/io.klib.docker.java:$gitbranch.adoptopenjdk.$date.$TRAVIS_BUILD_ID
      - docker push klibio/io.klib.docker.java:$gitbranch.adoptopenjdk.latest
