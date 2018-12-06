@@ -3,27 +3,27 @@ services:
 
 env:
   global:
-    - export gitbranch=$TRAVIS_BRANCH
+    - version=0.1.0
     - date=$(date +%Y%m%d-%H%M%S) #This is needed, else the variable will change by a second and not be pushed
 jobs:
  include:
   - stage: build and push docker.java for master
     if: branch = master
     script:
-     - docker build -t klibio/io.klib.docker.java:alpine.$date.$TRAVIS_BUILD_ID -t klibio/io.klib.docker.java:alpine.latest --file ./Dockerfile-alpine.txt . 
+     - docker build -t klibio/io.klib.docker.java:alpine.master/$version.$date_$TRAVIS_COMMIT -t klibio/io.klib.docker.java:alpine.master/latest --file ./Dockerfile-alpine.txt . 
      - docker images ls -a
      - docker login -u $DCKUSR -p $DCKPW
-     - docker push klibio/io.klib.docker.java:alpine.$date.$TRAVIS_BUILD_ID
-     - docker push klibio/io.klib.docker.java:alpine.latest
-     - docker build -t klibio/io.klib.docker.java:adoptopenjdk.$date.$TRAVIS_BUILD_ID -t klibio/io.klib.docker.java:adoptopenjdk.latest --file ./Dockerfile-adoptopenjdk.txt . 
-     - docker push klibio/io.klib.docker.java:adoptopenjdk.$date.$TRAVIS_BUILD_ID
-     - docker push klibio/io.klib.docker.java:adoptopenjdk.latest     
+     - docker push klibio/io.klib.docker.java:alpine.master/$version.$date_$TRAVIS_COMMIT
+     - docker push klibio/io.klib.docker.java:alpine.master/latest
+     - docker build -t klibio/io.klib.docker.java:adoptopenjdk.master/$version.$date_$TRAVIS_COMMIT -t klibio/io.klib.docker.java:adoptopenjdk.master/latest --file ./Dockerfile-adoptopenjdk.txt . 
+     - docker push klibio/io.klib.docker.java:adoptopenjdk.master/$version.$date_$TRAVIS_COMMIT
+     - docker push klibio/io.klib.docker.java:adoptopenjdk.master/latest     
   - stage: build and push docker.java for develop
     if: branch = develop
     script:
-     - docker build -t klibio/io.klib.docker.java:develop.alpine --file ./Dockerfile-alpine.txt . 
+     - docker build -t klibio/io.klib.docker.java:alpine.develop/$version.$date_$TRAVIS_COMMIT --file ./Dockerfile-alpine.txt . 
      - docker images ls -a
      - docker login -u $DCKUSR -p $DCKPW
-     - docker push klibio/io.klib.docker.java:develop.alpine
-     - docker build -t klibio/io.klib.docker.java:develop.adoptopenjdk --file ./Dockerfile-adoptopenjdk.txt . 
-     - docker push klibio/io.klib.docker.java:develop.adoptopenjdk
+     - docker push klibio/io.klib.docker.java:alpine.develop/$version.$date_$TRAVIS_COMMIT
+     - docker build -t klibio/io.klib.docker.java:adoptopenjdk.develop/$version.$dat_$TRAVIS_COMMIT --file ./Dockerfile-adoptopenjdk.txt . 
+     - docker push klibio/io.klib.docker.java:adoptopenjdk.develop/$version.$date_$TRAVIS_COMMIT
