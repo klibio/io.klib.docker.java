@@ -10,20 +10,20 @@ jobs:
   - stage: build and push docker.java for master
     if: branch = master
     script:
-     - docker build -t klibio/io.klib.docker.java:alpine.master/$version.$date.$TRAVIS_COMMIT -t klibio/io.klib.docker.java:alpine.master/latest --file ./Dockerfile-alpine.txt . 
+     - docker build -t klibio/io.klib.docker.java:alpine.master-$version.$date_$TRAVIS_COMMIT -t klibio/io.klib.docker.java:alpine.master-latest --file ./Dockerfile-alpine.txt . 
      - docker images ls -a
      - docker login -u $DCKUSR -p $DCKPW
-     - docker push klibio/io.klib.docker.java:alpine.master/$version.$date.$TRAVIS_COMMIT
-     - docker push klibio/io.klib.docker.java:alpine.master/latest
-     - docker build -t klibio/io.klib.docker.java:adoptopenjdk.master/$version.$date.$TRAVIS_COMMIT -t klibio/io.klib.docker.java:adoptopenjdk.master/latest --file ./Dockerfile-adoptopenjdk.txt . 
-     - docker push klibio/io.klib.docker.java:adoptopenjdk.master/$version.$date.$TRAVIS_COMMIT
-     - docker push klibio/io.klib.docker.java:adoptopenjdk.master/latest     
+     - docker push klibio/io.klib.docker.java:alpine.master-$version.$date_$TRAVIS_COMMIT
+     - docker push klibio/io.klib.docker.java:alpine.master-latest
+     - docker build -t klibio/io.klib.docker.java:adoptopenjdk.master-$version.$date_$TRAVIS_COMMIT -t klibio/io.klib.docker.java:adoptopenjdk.master-latest --file ./Dockerfile-adoptopenjdk.txt . 
+     - docker push klibio/io.klib.docker.java:adoptopenjdk.master-$version.$date_$TRAVIS_COMMIT
+     - docker push klibio/io.klib.docker.java:adoptopenjdk.master-latest     
   - stage: build and push docker.java for develop
     if: branch = develop
     script:
-     - docker build -t klibio/io.klib.docker.java:alpine.develop/$version.$date.$TRAVIS_COMMIT --file ./Dockerfile-alpine.txt . 
+     - docker build -t klibio/io.klib.docker.java:alpine.develop-$version.$date_$TRAVIS_COMMIT --file ./Dockerfile-alpine.txt . 
      - docker images ls -a
      - docker login -u $DCKUSR -p $DCKPW
-     - docker push klibio/io.klib.docker.java:alpine.develop/$version.$date.$TRAVIS_COMMIT
-     - docker build -t klibio/io.klib.docker.java:adoptopenjdk.develop/$version.$date.$TRAVIS_COMMIT --file ./Dockerfile-adoptopenjdk.txt . 
-     - docker push klibio/io.klib.docker.java:adoptopenjdk.develop/$version.$date.$TRAVIS_COMMIT
+     - docker push klibio/io.klib.docker.java:alpine.develop-$version.$date_$TRAVIS_COMMIT
+     - docker build -t klibio/io.klib.docker.java:adoptopenjdk.develop-$version.$date_$TRAVIS_COMMIT --file ./Dockerfile-adoptopenjdk.txt . 
+     - docker push klibio/io.klib.docker.java:adoptopenjdk.develop-$version.$date_$TRAVIS_COMMIT
